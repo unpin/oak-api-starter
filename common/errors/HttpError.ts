@@ -8,7 +8,7 @@ export class HttpError extends Error {
   status: number;
 
   constructor({ message, status, cause }: ErrorProps) {
-    super(`Status Code: ${status} | ${message}`, { cause });
+    super(`Status: ${status} | ${message}`, { cause });
     this.status = status;
     this.name = HttpError.name;
   }
