@@ -1,7 +1,6 @@
 import { LOGGER } from "../common/Logger.ts";
 import { RouteParams, RouterContext } from "../deps.ts";
-
-const OBJECT_ID_REGEX = /^[0-9a-f]{24}$/;
+import { isObjectIdValid } from "../utils/isObjectIdValid.ts";
 
 export function validateObjectId<T extends string>(_id: string | string[]) {
   return async function (
@@ -9,7 +8,7 @@ export function validateObjectId<T extends string>(_id: string | string[]) {
     next: () => Promise<unknown>,
   ) {
     if (Array.isArray(_id)) {
-      if (_id.every((id) => validate(ctx.params[id]))) {
+      if (_id.every((id) => isObjectIdValid(ctx.params[id]))) {
         LOGGER.debug("ObjectID is valid");
         await next();
       } else {
@@ -18,7 +17,7 @@ export function validateObjectId<T extends string>(_id: string | string[]) {
         ctx.response.body = "Invalid ObjectIds";
       }
     } else {
-      if (validate(ctx.params[_id])) {
+      if (isObjectIdValid(ctx.params[_id])) {
         LOGGER.debug("ObjectID is valid");
         await next();
       } else {
@@ -28,8 +27,4 @@ export function validateObjectId<T extends string>(_id: string | string[]) {
       }
     }
   };
-}
-
-function validate(string: string | undefined) {
-  return string && OBJECT_ID_REGEX.test(string);
 }
