@@ -11,7 +11,7 @@ import {
   it,
   Status,
 } from "../../deps.ts";
-import { generateHexString } from "../../utils/generateHex.ts";
+import { generateHexString } from "../../utils/generateHexString.ts";
 import { Auth, Users } from "./config/routes.ts";
 
 const { ADMIN_PASSWORD } = await config();
