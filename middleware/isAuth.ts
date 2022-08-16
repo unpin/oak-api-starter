@@ -11,10 +11,10 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
       await next();
     } catch {
       ctx.response.status = Status.Unauthorized;
-      ctx.response.body = "Bearer token is invalid";
+      ctx.response.body = "Authorization token is invalid";
     }
   } else {
     ctx.response.status = Status.Unauthorized;
-    ctx.response.body = "Bearer token is required";
+    ctx.response.body = "Authorization token is required";
   }
 }
