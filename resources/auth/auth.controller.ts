@@ -10,9 +10,8 @@ import { JWT_CRYPTO_KEY } from "../../config/config.ts";
 export async function signup(ctx: Context) {
   try {
     const body = await ctx.request.body().value;
-    const salt = await genSalt();
-    const hashed = await hash(body.password, salt);
-    body.password = hashed;
+    const hashedPassword = await hash(body.password, await genSalt());
+    body.password = hashedPassword;
     const user = await User.findOne({ email: body.email });
     if (user) {
       throw new HttpError({
