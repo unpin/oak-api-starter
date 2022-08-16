@@ -1,4 +1,7 @@
-export function generateHexString(n = 16) {
-  return Array.from(Array(n), () => Math.floor(Math.random() * 16).toString(16))
+export function generateHexString(length = 16) {
+  return Array.from(
+    Array(length),
+    () => Math.floor(Math.random() * 16).toString(16),
+  )
     .join("");
 }
