@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "start": "deno run -A app.ts",
+    "dev": "deno run -A --watch app.ts",
+    "test": "deno test -A",
+    "test:watch": "deno test -A --watch",
+    "test:user": "deno test -A --no-check --watch ./tests/api/user.test.ts",
+    "test:auth": "deno test -A --no-check --watch ./tests/api/auth.test.ts",
+    "check": "deno check app.ts"
+  }
+}
