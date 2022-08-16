@@ -1,8 +1,9 @@
 import { bcrypt, Context, Status } from "../../deps.ts";
 import { handleHttpError } from "../../common/handleHttpError.ts";
-import { createJWT } from "../../common/jwt.ts";
+import { getNumericDate, sign } from "../../lib/jwt.ts";
 import { User } from "../user/user.model.ts";
 import { HttpError } from "../../common/errors/HttpError.ts";
+import { JWT_CRYPTO_KEY } from "../../config/config.ts";
 
 export async function signup(ctx: Context) {
   try {
@@ -19,9 +20,9 @@ export async function signup(ctx: Context) {
     } else {
       // TODO Move JWT token generation to User model once API is provided
       const userId = await User.insertOne(body);
-      const iat = Math.floor(Date.now() / 1000);
+      const iat = getNumericDate(new Date());
       const exp = iat + 60 * 60 * 24;
-      const token = await createJWT({ sub: userId, iat, exp });
+      const token = await sign({ sub: userId, iat, exp }, JWT_CRYPTO_KEY);
       ctx.response.status = Status.Created;
 
       ctx.response.body = { _id: userId, token };
@@ -66,12 +67,12 @@ export async function signin(ctx: Context) {
       const exp = iat + 60 * 60 * 24;
       ctx.response.body = {
         _id: user._id,
-        token: await createJWT({
+        token: await sign({
           sub: user._id,
           iat,
           exp,
           isAdmin: user.isAdmin,
-        }),
+        }, JWT_CRYPTO_KEY),
       };
     }
   } catch (error) {

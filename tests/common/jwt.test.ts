@@ -1,5 +1,6 @@
-import { createJWT, verifyJWT } from "../../common/jwt.ts";
+import { sign, verify } from "../../lib/jwt.ts";
 import { assertEquals, assertRejects, describe, it } from "../../deps.ts";
+import { JWT_CRYPTO_KEY } from "../../config/config.ts";
 
 const userData = {
   name: "John",
@@ -8,9 +9,9 @@ const userData = {
 
 describe("JWT", () => {
   it("should create and verify JWT token", async () => {
-    const encoded = await createJWT(userData);
+    const encoded = await sign(userData, JWT_CRYPTO_KEY);
     assertEquals(typeof encoded, "string");
-    const decoded = await verifyJWT(encoded);
+    const decoded = await verify(encoded, JWT_CRYPTO_KEY);
     assertEquals(typeof decoded, "object");
   });
 
@@ -18,10 +19,10 @@ describe("JWT", () => {
     const seconds = Math.floor(Date.now() / 1000);
     const iat = seconds - 100;
     const exp = seconds - 10;
-    const token = await createJWT({ userData, exp, iat });
+    const token = await sign({ userData, exp, iat }, JWT_CRYPTO_KEY);
 
     assertRejects(async () => {
-      await verifyJWT(token);
+      await verify(token, JWT_CRYPTO_KEY);
     });
   });
 });

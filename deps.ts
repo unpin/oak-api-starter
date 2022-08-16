@@ -32,7 +32,6 @@ export {
   Router,
   type RouterContext,
 } from "https://deno.land/x/oak@v10.6.0/mod.ts";
-export * as jwt from "https://deno.land/x/djwt@v2.7/mod.ts";
 export * as bcrypt from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 export { dango } from "https://deno.land/x/dangodb@v1.0.3/mod.ts";
 export { Query } from "https://deno.land/x/dangodb@v1.0.3/lib/query.ts";
