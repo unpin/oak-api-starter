@@ -26,7 +26,7 @@ describe("POST /auth/signup", () => {
     response.close();
   });
 
-  it("should return 400 if user with the email already exists", async () => {
+  it("should return 409 if user with the email already exists", async () => {
     const response = await Fetch.post(Auth.signup).send(userData);
     response.expect(Status.Conflict);
     response.close();
