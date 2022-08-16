@@ -12,10 +12,10 @@ export async function signup(ctx: Context) {
     body.password = hash;
     const user = await User.findOne({ email: body.email });
     if (user) {
-      throw new HttpError(
-        "User with this email already exists",
-        Status.Conflict,
-      );
+      throw new HttpError({
+        message: "User with this email already exists",
+        status: Status.Conflict,
+      });
     } else {
       // TODO Move JWT token generation to User model once API is provided
       const userId = await User.insertOne(body);
@@ -45,20 +45,20 @@ export async function signin(ctx: Context) {
       isAdmin: boolean;
     };
     if (!user) {
-      throw new HttpError(
-        "Incorrect email address or password",
-        Status.BadRequest,
-      );
+      throw new HttpError({
+        message: "Incorrect email address or password",
+        status: Status.BadRequest,
+      });
     }
     const isPasswordCorrect = await bcrypt.compare(
       body.password,
       user.password,
     );
     if (!isPasswordCorrect) {
-      throw new HttpError(
-        "Incorrect email address or password",
-        Status.BadRequest,
-      );
+      throw new HttpError({
+        message: "Incorrect email address or password",
+        status: Status.BadRequest,
+      });
     } else {
       ctx.response.status = Status.OK;
       // TODO Move JWT token generation to User model once API is provided
