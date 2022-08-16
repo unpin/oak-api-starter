@@ -1,4 +1,6 @@
-import { Context, Query, RouteParams, RouterContext, Status } from "../deps.ts";
+import { Status } from "std/http/http_status.ts";
+import { Query } from "dango/lib/query.ts";
+import { Context, RouteParams, RouterContext } from "oak";
 import { handleHttpError } from "../common/handleHttpError.ts";
 
 export function createOne(Model: Query) {

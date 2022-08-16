@@ -1,4 +1,4 @@
-import { dango } from "../../deps.ts";
+import { dango } from "dango/mod.ts";
 
 const userSchema = dango.schema({
   name: { type: "string", required: true },

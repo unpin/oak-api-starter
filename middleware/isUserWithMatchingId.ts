@@ -1,4 +1,5 @@
-import { RouterContext, Status } from "../deps.ts";
+import { Status } from "std/http/http_status.ts";
+import { RouterContext } from "oak";
 
 export async function isUserWithMatchingId(
   ctx: RouterContext<"/users/:id", { id: string }>,

@@ -1,4 +1,4 @@
-import { dango } from "../deps.ts";
+import { dango } from "dango/mod.ts";
 import { LOGGER } from "../common/Logger.ts";
 import { User } from "../resources/user/user.model.ts";
 import { seed } from "./seed.ts";

@@ -1,4 +1,6 @@
-import { bcrypt, Context, Status } from "../../deps.ts";
+import { Context } from "oak";
+import { compare, genSalt, hash } from "bcrypt";
+import { Status } from "std/http/http_status.ts";
 import { handleHttpError } from "../../common/handleHttpError.ts";
 import { getNumericDate, sign } from "../../lib/jwt.ts";
 import { User } from "../user/user.model.ts";
@@ -8,9 +10,9 @@ import { JWT_CRYPTO_KEY } from "../../config/config.ts";
 export async function signup(ctx: Context) {
   try {
     const body = await ctx.request.body().value;
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(body.password, salt);
-    body.password = hash;
+    const salt = await genSalt(10);
+    const hashed = await hash(body.password, salt);
+    body.password = hashed;
     const user = await User.findOne({ email: body.email });
     if (user) {
       throw new HttpError({
@@ -51,7 +53,7 @@ export async function signin(ctx: Context) {
         status: Status.BadRequest,
       });
     }
-    const isPasswordCorrect = await bcrypt.compare(
+    const isPasswordCorrect = await compare(
       body.password,
       user.password,
     );

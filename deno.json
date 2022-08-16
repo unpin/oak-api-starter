@@ -6,5 +6,6 @@
     "test:user": "deno test -A --no-check ./tests/api/user.test.ts",
     "test:auth": "deno test -A --no-check ./tests/api/auth.test.ts",
     "check": "deno check app.ts"
-  }
+  },
+  "importMap": "import-map.json"
 }

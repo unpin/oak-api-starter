@@ -1,16 +1,14 @@
+import { Status } from "std/http/http_status.ts";
+import { config } from "std/dotenv/mod.ts";
+import { Fetch } from "superfetch";
+import { assert, assertEquals, assertExists } from "std/testing/asserts.ts";
 import {
   afterAll,
-  assert,
-  assertEquals,
-  assertExists,
   beforeAll,
   beforeEach,
-  config,
   describe,
-  Fetch,
   it,
-  Status,
-} from "../../deps.ts";
+} from "std/testing/bdd.ts";
 import { generateHexString } from "../../utils/generateHexString.ts";
 import { Auth, Users } from "./config/routes.ts";
 

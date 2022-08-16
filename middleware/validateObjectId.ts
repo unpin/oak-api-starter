@@ -1,5 +1,5 @@
 import { LOGGER } from "../common/Logger.ts";
-import { RouteParams, RouterContext } from "../deps.ts";
+import { RouteParams, RouterContext } from "oak";
 import { isObjectIdValid } from "../utils/isObjectIdValid.ts";
 
 export function validateObjectId<T extends string>(_id: string | string[]) {

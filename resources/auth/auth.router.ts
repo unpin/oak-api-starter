@@ -1,4 +1,4 @@
-import { Router } from "../../deps.ts";
+import { Router } from "oak";
 import { signin, signup } from "./auth.controller.ts";
 
 export const authRouter = new Router();

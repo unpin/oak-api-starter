@@ -1,4 +1,4 @@
-import { config } from "../deps.ts";
+import { config } from "std/dotenv/mod.ts";
 
 const getEnv = async () => {
   return await config({

@@ -1,4 +1,4 @@
-import { Router } from "../../deps.ts";
+import { Router } from "oak";
 import { isAdmin } from "../../middleware/isAdmin.ts";
 import { isAuth } from "../../middleware/isAuth.ts";
 import { isUserWithMatchingId } from "../../middleware/isUserWithMatchingId.ts";

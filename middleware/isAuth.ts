@@ -1,5 +1,6 @@
+import { Context } from "oak";
+import { Status } from "std/http/http_status.ts";
 import { verify } from "../lib/jwt.ts";
-import { Context, Status } from "../deps.ts";
 import { JWT_CRYPTO_KEY } from "../config/config.ts";
 
 export async function isAuth(ctx: Context, next: () => Promise<unknown>) {

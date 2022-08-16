@@ -1,4 +1,4 @@
-import { Application } from "./deps.ts";
+import { Application } from "oak";
 import { DATABASE_URL, DENO_ENV, PORT } from "./config/config.ts";
 import { userRouter } from "./resources/user/user.router.ts";
 import { authRouter } from "./resources/auth/auth.router.ts";

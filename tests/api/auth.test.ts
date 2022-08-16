@@ -1,12 +1,7 @@
-import {
-  afterAll,
-  assertExists,
-  beforeAll,
-  describe,
-  Fetch,
-  it,
-  Status,
-} from "../../deps.ts";
+import { Status } from "std/http/http_status.ts";
+import { assertExists } from "std/testing/asserts.ts";
+import { afterAll, beforeAll, describe, it } from "std/testing/bdd.ts";
+import { Fetch } from "superfetch";
 import { Auth, Users } from "./config/routes.ts";
 
 const userData = {

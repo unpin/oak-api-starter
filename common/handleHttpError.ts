@@ -1,6 +1,7 @@
+import { Context } from "oak";
+import { Status } from "std/http/http_status.ts";
 import { HttpError } from "../common/errors/HttpError.ts";
 import { LOGGER } from "../common/Logger.ts";
-import { Context, Status } from "../deps.ts";
 
 export function handleHttpError(ctx: Context, error: Error) {
   if (error instanceof HttpError) {
