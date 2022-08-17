@@ -5,6 +5,7 @@ const userSchema = dango.schema({
   email: { type: "string", required: true, unique: true },
   password: { type: "string", required: true },
   isAdmin: { type: "boolean", default: false },
+  changedPasswordAt: { type: "date", default: null },
 });
 
 export const User = dango.model(
