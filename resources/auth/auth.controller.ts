@@ -32,11 +32,11 @@ export async function signup(ctx: Context) {
 }
 
 export async function signin(ctx: Context) {
-  const body = await ctx.request.body().value;
-  const user = await User.findOne({
-    email: body.email,
-  }) as {
+  const { email, password } = await ctx.request.body().value;
+  const user = await User.findOne({ email }) as {
     _id: string;
+    name: string;
+    email: string;
     password: string;
     isAdmin: boolean;
   };
@@ -50,26 +50,22 @@ export async function signin(ctx: Context) {
     password,
     user.password,
   );
-  if (!isPasswordCorrect) {
+  if (!passwordsMatch) {
     throw createHttpError(
       Status.BadRequest,
       "The email address or password is incorrect",
     );
-  } else {
-    ctx.response.status = Status.OK;
-    // TODO Move JWT token generation to User model once API is provided
-    const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 60 * 60 * 24;
-    ctx.response.body = {
-      _id: user._id,
-      token: await sign({
-        sub: user._id,
-        iat,
-        exp,
-        isAdmin: user.isAdmin,
-      }, JWT_CRYPTO_KEY),
-    };
   }
+  // TODO Move JWT token generation to User model once API is provided
+  const iat = Math.floor(Date.now() / 1000);
+  const exp = iat + 60 * 60 * 24;
+  const token = await sign(
+    { sub: user._id, iat, exp, isAdmin: user.isAdmin },
+    JWT_CRYPTO_KEY,
+  );
+  const { password: _, ...publicUser } = user;
+  ctx.response.status = Status.OK;
+  ctx.response.body = { token, data: { user: publicUser } };
 }
 
 export function removeAccount(ctx: Context) {
