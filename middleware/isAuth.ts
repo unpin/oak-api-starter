@@ -2,6 +2,7 @@ import { Context, createHttpError } from "oak";
 import { Status } from "std/http/http_status.ts";
 import { verify } from "../common/jwt.ts";
 import { JWT_CRYPTO_KEY } from "../common/config.ts";
+import { User } from "../resources/user/user.model.ts";
 
 export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   const authHeader = ctx.request.headers.get("Authorization");
@@ -15,14 +16,21 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
       "Authorization token is required",
     );
   }
+  let decoded = null;
   try {
-    ctx.state.user = await verify(token, JWT_CRYPTO_KEY);
-    // TODO Check if user exists in the database
+    decoded = await verify(token, JWT_CRYPTO_KEY);
   } catch {
     throw createHttpError(
       Status.Unauthorized,
       "Authorization token is invalid",
     );
+  }
+  const foundUser = await User.findById(decoded.sub as string) as Record<
+    string,
+    unknown
+  >;
+  if (!foundUser) {
+    throw createHttpError(Status.Unauthorized, "User does no longer exist");
   }
   await next();
 }
