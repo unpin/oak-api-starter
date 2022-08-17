@@ -53,7 +53,7 @@ export async function signin(ctx: Context) {
   if (!isPasswordCorrect) {
     throw createHttpError(
       Status.BadRequest,
-      "Incorrect email address or password",
+      "The email address or password is incorrect",
     );
   } else {
     ctx.response.status = Status.OK;
