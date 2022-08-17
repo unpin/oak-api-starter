@@ -5,6 +5,6 @@ export async function isAdmin(ctx: Context, next: () => Promise<unknown>) {
   if (ctx.state?.user?.isAdmin) {
     await next();
   } else {
-    createHttpError(Status.Forbidden, "Access denied");
+    throw createHttpError(Status.Forbidden, "Access denied");
   }
 }
