@@ -14,11 +14,11 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   }
   try {
     ctx.state.user = await verify(token, JWT_CRYPTO_KEY);
-    await next();
   } catch {
     throw createHttpError(
       Status.Unauthorized,
       "Authorization token is invalid",
     );
   }
+  await next();
 }
