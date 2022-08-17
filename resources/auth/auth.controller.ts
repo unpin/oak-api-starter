@@ -1,7 +1,7 @@
 import { Context, createHttpError } from "oak";
 import { compare, genSalt, hash } from "bcrypt";
 import { Status } from "std/http/http_status.ts";
-import { getNumericDate, sign } from "../../lib/jwt.ts";
+import { getNumericDate, sign } from "../../common/jwt.ts";
 import { User } from "../user/user.model.ts";
 import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 
