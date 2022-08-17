@@ -7,7 +7,7 @@ export async function seed() {
     email: ADMIN_EMAIL,
   });
   if (admin) return;
-  const salt = await genSalt(10);
+  const salt = await genSalt();
   const hashedPassword = await hash(ADMIN_PASSWORD, salt);
   return User.insertOne({
     name: "Admin",
