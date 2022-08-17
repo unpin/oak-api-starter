@@ -6,10 +6,9 @@ import { User } from "../user/user.model.ts";
 import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 
 export async function signup(ctx: Context) {
-  const body = await ctx.request.body({ type: "json" }).value;
-  const hashedPassword = await hash(body.password, await genSalt());
-  body.password = hashedPassword;
-  const user = await User.findOne({ email: body.email });
+  const { name, email, password } = await ctx.request.body({ type: "json" })
+    .value;
+  const user = await User.findOne({ email });
   if (user) {
     throw createHttpError(
       Status.Conflict,
@@ -17,13 +16,16 @@ export async function signup(ctx: Context) {
     );
   } else {
     // TODO Move JWT token generation to User model once API is provided
-    const userId = await User.insertOne(body);
+    const _id = await User.insertOne({
+      name,
+      email,
+      password: await hash(password, await genSalt()),
+    });
     const iat = getNumericDate(new Date());
     const exp = iat + 60 * 60 * 24;
-    const token = await sign({ sub: userId, iat, exp }, JWT_CRYPTO_KEY);
+    const token = await sign({ sub: _id, iat, exp }, JWT_CRYPTO_KEY);
     ctx.response.status = Status.Created;
-
-    ctx.response.body = { _id: userId, token };
+    ctx.response.body = { _id, token };
     // TODO Should the JWT token be sent as a cookie?
     ctx.cookies.set("token", token, { httpOnly: true });
   }
