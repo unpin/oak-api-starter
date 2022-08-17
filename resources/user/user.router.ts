@@ -20,7 +20,7 @@ userRouter
     validateObjectId<"/users/:id">("id"),
     getById(User),
   )
-  .get("/users", isAuth, isAdmin, getMany(User))
+  .get("/users", isAdmin, getMany(User))
   .put(
     "/users/:id",
     validateObjectId<"/users/:id">("id"),
