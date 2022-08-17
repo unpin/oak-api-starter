@@ -32,5 +32,21 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   if (!foundUser) {
     throw createHttpError(Status.Unauthorized, "User does no longer exist");
   }
+  if (
+    foundUser.changedPasswordAt &&
+    changedPasswordAfter(
+      foundUser.changedPasswordAt as Date,
+      decoded.iat as number,
+    )
+  ) {
+    throw createHttpError(
+      Status.Unauthorized,
+      "Authorization token is no longer valid",
+    );
+  }
   await next();
+}
+
+function changedPasswordAfter(changedPasswordAt: Date, iat: number) {
+  return Math.round(changedPasswordAt.getTime() / 1000) > iat;
 }
