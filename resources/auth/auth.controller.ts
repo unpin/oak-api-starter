@@ -46,8 +46,8 @@ export async function signin(ctx: Context) {
       "Incorrect email address or password",
     );
   }
-  const isPasswordCorrect = await compare(
-    body.password,
+  const passwordsMatch = await compare(
+    password,
     user.password,
   );
   if (!isPasswordCorrect) {
