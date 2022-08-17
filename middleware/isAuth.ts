@@ -44,6 +44,7 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
       "Authorization token is no longer valid",
     );
   }
+  ctx.state.user = decoded;
   await next();
 }
 
