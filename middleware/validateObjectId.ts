@@ -1,6 +1,7 @@
 import { LOGGER } from "../common/Logger.ts";
-import { RouteParams, RouterContext } from "oak";
+import { createHttpError, RouteParams, RouterContext } from "oak";
 import { isObjectIdValid } from "../utils/isObjectIdValid.ts";
+import { Status } from "std/http/http_status.ts";
 
 export function validateObjectId<T extends string>(_id: string | string[]) {
   return async function (
@@ -13,8 +14,7 @@ export function validateObjectId<T extends string>(_id: string | string[]) {
         await next();
       } else {
         LOGGER.debug("ObjectID is NOT valid");
-        ctx.response.status = 400;
-        ctx.response.body = "Invalid ObjectIds";
+        throw createHttpError(Status.BadRequest, "Invalid ObjectIds");
       }
     } else {
       if (isObjectIdValid(ctx.params[_id])) {
@@ -22,8 +22,7 @@ export function validateObjectId<T extends string>(_id: string | string[]) {
         await next();
       } else {
         LOGGER.debug("ObjectID is NOT valid");
-        ctx.response.status = 400;
-        ctx.response.body = "Invalid ObjectId";
+        throw createHttpError(Status.BadRequest, "Invalid ObjectId");
       }
     }
   };
