@@ -34,14 +34,14 @@ describe("POST /auth/signup", () => {
 });
 
 describe("POST /auth/signin", () => {
-  it("should sign in user responding with JWT token and _id", async () => {
+  it("should respond with 401 if email or password is wrong", async () => {
     const response = await Fetch.post(Auth.signin)
       .send({ email: "wrong@email.com", password: "wrong" });
-    response.expect(Status.BadRequest);
+    response.expect(Status.Unauthorized);
     response.close();
   });
 
-  it("should sign in user responding with JWT token and _id", async () => {
+  it("should sign in user responding with JWT token", async () => {
     const response = await Fetch.post(Auth.signin)
       .send({ email: userData.email, password: userData.password });
     response.expect(Status.OK);

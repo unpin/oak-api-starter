@@ -54,7 +54,7 @@ export async function signin(ctx: Context) {
   };
   if (!user) {
     throw createHttpError(
-      Status.BadRequest,
+      Status.Unauthorized,
       "Incorrect email address or password",
     );
   }
@@ -64,7 +64,7 @@ export async function signin(ctx: Context) {
   );
   if (!passwordsMatch) {
     throw createHttpError(
-      Status.BadRequest,
+      Status.Unauthorized,
       "The email address or password is incorrect",
     );
   }
