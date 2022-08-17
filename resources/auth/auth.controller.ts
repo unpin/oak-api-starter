@@ -8,6 +8,12 @@ import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 export async function signup(ctx: Context) {
   const { name, email, password } = await ctx.request.body({ type: "json" })
     .value;
+  if (!name || !email || !password) {
+    throw createHttpError(
+      Status.BadRequest,
+      "All required fields must be provided",
+    );
+  }
   const user = await User.findOne({ email });
   if (user) {
     throw createHttpError(
@@ -33,6 +39,12 @@ export async function signup(ctx: Context) {
 
 export async function signin(ctx: Context) {
   const { email, password } = await ctx.request.body().value;
+  if (!email || !password) {
+    throw createHttpError(
+      Status.BadRequest,
+      "All required fields must be provided",
+    );
+  }
   const user = await User.findOne({ email }) as {
     _id: string;
     name: string;
