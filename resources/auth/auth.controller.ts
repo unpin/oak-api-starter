@@ -11,7 +11,7 @@ export async function signup(ctx: Context) {
   if (!name || !email || !password) {
     throw createHttpError(
       Status.BadRequest,
-      "All required fields must be provided",
+      "Please provide name, email and password",
     );
   }
   const user = await User.findOne({ email });
@@ -42,7 +42,7 @@ export async function signin(ctx: Context) {
   if (!email || !password) {
     throw createHttpError(
       Status.BadRequest,
-      "All required fields must be provided",
+      "Please provide email and password",
     );
   }
   const user = await User.findOne({ email }) as {
