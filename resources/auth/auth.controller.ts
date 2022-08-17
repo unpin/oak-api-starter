@@ -25,7 +25,7 @@ export async function signup(ctx: Context) {
     const exp = iat + 60 * 60 * 24;
     const token = await sign({ sub: _id, iat, exp }, JWT_CRYPTO_KEY);
     ctx.response.status = Status.Created;
-    ctx.response.body = { _id, token };
+    ctx.response.body = { token, data: { user: { _id, name, email } } };
     // TODO Should the JWT token be sent as a cookie?
     ctx.cookies.set("token", token, { httpOnly: true });
   }
@@ -72,6 +72,6 @@ export async function signin(ctx: Context) {
   }
 }
 
-export function deleteUser() {
+export function removeAccount(ctx: Context) {
   // TODO
 }
