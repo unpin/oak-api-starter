@@ -52,20 +52,10 @@ export async function signin(ctx: Context) {
     password: string;
     isAdmin: boolean;
   };
-  if (!user) {
+  if (!user || await compare(password, user.password)) {
     throw createHttpError(
       Status.Unauthorized,
       "Incorrect email address or password",
-    );
-  }
-  const passwordsMatch = await compare(
-    password,
-    user.password,
-  );
-  if (!passwordsMatch) {
-    throw createHttpError(
-      Status.Unauthorized,
-      "The email address or password is incorrect",
     );
   }
   // TODO Move JWT token generation to User model once API is provided
