@@ -48,6 +48,6 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   await next();
 }
 
-function changedPasswordAfter(changedPasswordAt: Date, iat: number) {
-  return Math.round(changedPasswordAt.getTime() / 1000) > iat;
+function changedPasswordAfter(date: Date, seconds: number) {
+  return Math.round(date.getTime() / 1000) > seconds;
 }
