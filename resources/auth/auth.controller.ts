@@ -3,7 +3,7 @@ import { compare, genSalt, hash } from "bcrypt";
 import { Status } from "std/http/http_status.ts";
 import { getNumericDate, sign } from "../../lib/jwt.ts";
 import { User } from "../user/user.model.ts";
-import { JWT_CRYPTO_KEY } from "../../config/config.ts";
+import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 
 export async function signup(ctx: Context) {
   const body = await ctx.request.body({ type: "json" }).value;

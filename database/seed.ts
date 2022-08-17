@@ -1,5 +1,5 @@
 import { genSalt, hash } from "bcrypt";
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../config/config.ts";
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../common/config.ts";
 import { User } from "../resources/user/user.model.ts";
 
 export async function seed() {

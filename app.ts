@@ -1,5 +1,5 @@
 import { Application } from "oak";
-import { DATABASE_URL, DENO_ENV, PORT } from "./config/config.ts";
+import { DATABASE_URL, DENO_ENV, PORT } from "./common/config.ts";
 import { userRouter } from "./resources/user/user.router.ts";
 import { authRouter } from "./resources/auth/auth.router.ts";
 import { connect } from "./database/connect.ts";

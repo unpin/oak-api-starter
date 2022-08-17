@@ -1,7 +1,7 @@
 import { sign, verify } from "../../lib/jwt.ts";
 import { assertEquals, assertRejects } from "std/testing/asserts.ts";
 import { describe, it } from "std/testing/bdd.ts";
-import { JWT_CRYPTO_KEY } from "../../config/config.ts";
+import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 
 const userData = {
   name: "John",

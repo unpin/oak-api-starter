@@ -1,5 +1,5 @@
 import { getLogger, handlers, LevelName, setup } from "std/log/mod.ts";
-import { LOGGING_LEVEL } from "../config/config.ts";
+import { LOGGING_LEVEL } from "../common/config.ts";
 
 const LEVEL = LOGGING_LEVEL as LevelName || "NOTSET";
 // File Logger Configuration
