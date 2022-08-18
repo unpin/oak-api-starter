@@ -33,9 +33,9 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
     throw createHttpError(Status.Unauthorized, "User does no longer exist");
   }
   if (
-    foundUser.changedPasswordAt &&
+    foundUser.passwordChangedAt &&
     changedPasswordAfter(
-      foundUser.changedPasswordAt as Date,
+      foundUser.passwordChangedAt as Date,
       decoded.iat as number,
     )
   ) {

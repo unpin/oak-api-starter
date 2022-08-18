@@ -10,7 +10,7 @@ const userSchema = dango.schema({
   email: { type: "string", required: true, unique: true },
   password: { type: "string", required: true },
   role: { type: "string", default: UserRole.USER },
-  changedPasswordAt: { type: "date", default: null },
+  passwordChangedAt: { type: "date", default: null },
 });
 
 export const User = dango.model(
