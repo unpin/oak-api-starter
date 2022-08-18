@@ -1,5 +1,5 @@
 import { Router } from "oak";
-import { isAdmin } from "../../middleware/isAdmin.ts";
+import { restrictTo } from "../../middleware/restrictTo.ts";
 import { isAuth } from "../../middleware/isAuth.ts";
 import { isUserWithMatchingId } from "../../middleware/isUserWithMatchingId.ts";
 import { validateObjectId } from "../../middleware/validateObjectId.ts";
@@ -10,7 +10,7 @@ import {
   getMany,
   updateById,
 } from "../../utils/crud.ts";
-import { User } from "./user.model.ts";
+import { User, UserRole } from "./user.model.ts";
 
 export const userRouter = new Router();
 
@@ -20,7 +20,7 @@ userRouter
     validateObjectId<"/users/:id">("id"),
     getById(User),
   )
-  .get("/users", isAdmin, getMany(User))
+  .get("/users", restrictTo(UserRole.ADMIN), getMany(User))
   .put(
     "/users/:id",
     validateObjectId<"/users/:id">("id"),
@@ -35,4 +35,4 @@ userRouter
     isUserWithMatchingId,
     /* TODO users can only delete themselves */ deleteById(User),
   )
-  .delete("/users", /* isAuth, isAdmin, */ deleteMany(User));
+  .delete("/users", /* isAuth, restrictTo, */ deleteMany(User));
