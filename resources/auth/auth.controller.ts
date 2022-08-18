@@ -58,9 +58,8 @@ export async function signin(ctx: Context) {
   }
   // TODO Move JWT token generation to User model once API is provided
   const token = await sign({ sub: user._id, role: user.role }, JWT_CRYPTO_KEY);
-  const { password: _, ...publicUser } = user;
   ctx.response.status = Status.OK;
-  ctx.response.body = { token, data: { user: publicUser } };
+  ctx.response.body = { token };
 }
 
 export function removeAccount(ctx: Context) {
