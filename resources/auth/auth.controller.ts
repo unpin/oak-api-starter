@@ -20,24 +20,24 @@ export async function signup(ctx: Context) {
       Status.Conflict,
       "User with this email already exists",
     );
-  } else {
-    // TODO Move JWT token generation to User model once API is provided
-    const _id = await User.insertOne({
-      name,
-      email,
-      password: await hash(password, await genSalt()),
-    });
-    const iat = getNumericDate(new Date());
-    const exp = iat + 60 * 60 * 24;
-    const token = await sign(
-      { sub: _id, iat, exp, role: UserRole.USER },
-      JWT_CRYPTO_KEY,
-    );
-    ctx.response.status = Status.Created;
-    ctx.response.body = { token, data: { user: { _id, name, email } } };
-    // TODO Should the JWT token be sent as a cookie?
-    ctx.cookies.set("token", token, { httpOnly: true });
   }
+  // TODO Move JWT token generation to User model once API is provided
+  const _id = await User.insertOne({
+    name,
+    email,
+    password: await hash(password, await genSalt()),
+  });
+  const iat = getNumericDate(new Date());
+  const exp = iat + 60 * 60 * 24;
+  const token = await sign(
+    { sub: _id, iat, exp, role: UserRole.USER },
+    JWT_CRYPTO_KEY,
+  );
+  ctx.response.status = Status.Created;
+  ctx.response.body = { token, data: { user: { _id, name, email } } };
+  // TODO Should the JWT token be sent as a cookie?
+  ctx.cookies.set("token", token, { httpOnly: true });
+}
 }
 
 export async function signin(ctx: Context) {
