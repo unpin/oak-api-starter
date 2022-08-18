@@ -47,7 +47,6 @@ describe("POST /auth/signin", () => {
     response.expect(Status.OK);
     const json = await response.json;
     assertExists(json);
-    assertExists(json.data);
     assertExists(json.token);
   });
 });
