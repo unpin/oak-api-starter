@@ -1,10 +1,15 @@
 import { dango } from "dango/mod.ts";
 
+export enum UserRole {
+  ADMIN = "admin",
+  USER = "user",
+}
+
 const userSchema = dango.schema({
   name: { type: "string", required: true },
   email: { type: "string", required: true, unique: true },
   password: { type: "string", required: true },
-  isAdmin: { type: "boolean", default: false },
+  role: { type: "string", default: UserRole.USER },
   changedPasswordAt: { type: "date", default: null },
 });
 
