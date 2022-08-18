@@ -19,6 +19,10 @@ export const {
   ADMIN_EMAIL,
   ADMIN_PASSWORD,
   JWT_SECRET,
+  SMTP_HOSTNAME,
+  SMTP_PORT,
+  SMTP_USERNAME,
+  SMTP_PASSWORD,
 } = await getEnv();
 
 export const JWT_CRYPTO_KEY = await crypto.subtle.importKey(
