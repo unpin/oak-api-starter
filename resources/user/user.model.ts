@@ -11,6 +11,8 @@ const userSchema = dango.schema({
   password: { type: "string", required: true },
   role: { type: "string", default: UserRole.USER },
   passwordChangedAt: { type: "date", default: null },
+  passwordResetToken: { type: "string", default: null },
+  passwordResetExpires: { type: "date", default: null },
 });
 
 export const User = dango.model(
