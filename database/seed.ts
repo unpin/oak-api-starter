@@ -8,11 +8,10 @@ export async function seed() {
   });
   if (admin) return;
   const salt = await genSalt();
-  const hashedPassword = await hash(ADMIN_PASSWORD, salt);
   return User.insertOne({
     name: "Admin",
     email: ADMIN_EMAIL,
-    password: hashedPassword,
+    password: await hash(ADMIN_PASSWORD, salt),
     isAdmin: true,
   });
 }
