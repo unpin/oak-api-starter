@@ -33,7 +33,7 @@ export async function signup(ctx: Context) {
 }
 
 export async function signin(ctx: Context) {
-  const { email, password } = await ctx.request.body().value;
+  const { email, password } = await ctx.request.body({ type: "json" }).value;
   if (!email || !password) {
     throw createHttpError(
       Status.BadRequest,
