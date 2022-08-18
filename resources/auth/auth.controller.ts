@@ -21,7 +21,6 @@ export async function signup(ctx: Context) {
       "User with this email already exists",
     );
   }
-  // TODO Move JWT token generation to User model once API is provided
   const _id = await User.insertOne({
     name,
     email,
@@ -30,7 +29,6 @@ export async function signup(ctx: Context) {
   const token = await sign({ sub: _id, role: UserRole.USER }, JWT_CRYPTO_KEY);
   ctx.response.status = Status.Created;
   ctx.response.body = { token, data: { user: { _id, name, email } } };
-  // TODO Should the JWT token be sent as a cookie?
   ctx.cookies.set("token", token, { httpOnly: true });
 }
 
@@ -56,7 +54,6 @@ export async function signin(ctx: Context) {
       "Incorrect email address or password",
     );
   }
-  // TODO Move JWT token generation to User model once API is provided
   const token = await sign({ sub: user._id, role: user.role }, JWT_CRYPTO_KEY);
   ctx.response.status = Status.OK;
   ctx.response.body = { token };
