@@ -115,8 +115,28 @@ export async function resetPassword(
     passwordResetToken: null,
     passwordResetExpires: null,
   });
+  // TODO Sign new token after password change
   ctx.response.status = Status.OK;
   ctx.response.body = { message: `Password has been changed` };
+}
+
+export async function updatePassword(ctx: Context) {
+  const { sub: _id } = ctx.state.user as { sub: string };
+  const { password, newPassword, newPasswordConfirm } = await ctx.request.body({
+    type: "json",
+  }).value;
+  ensureExists(password, "Password");
+  checkPassword(newPassword, newPasswordConfirm);
+  const user = await User.findById(_id) as { password: string };
+  if (!(await correctPassword(password, user.password))) {
+    throw createHttpError(Status.BadRequest, "Password is incorrect");
+  }
+  await User.findByIdAndUpdate(_id, {
+    password: await hashPassword(newPassword),
+    passwordChangedAt: Date.now(),
+  });
+  // TODO Sign new token after password change
+  ctx.response.body = { message: "Password has been changed" };
 }
 
 export function removeAccount(ctx: Context) {
