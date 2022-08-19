@@ -125,3 +125,22 @@ export async function resetPassword(
 export function removeAccount(ctx: Context) {
   // TODO
 }
+
+function checkPassword(password: string, passwordConfirm?: string) {
+  ensureExists(password, "Password");
+  if (password.length < 6) {
+    throw createHttpError(
+      Status.BadRequest,
+      "Password must be at least 6 characters long",
+    );
+  }
+  if (passwordConfirm && password !== passwordConfirm) {
+    throw createHttpError(Status.BadRequest, "Passwords do not match");
+  }
+}
+
+function ensureExists(prop: unknown, propName: string) {
+  if (prop === undefined) {
+    throw createHttpError(Status.BadRequest, `${propName} is required`);
+  }
+}
