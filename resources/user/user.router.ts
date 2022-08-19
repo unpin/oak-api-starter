@@ -11,6 +11,7 @@ import {
   updateById,
 } from "../../utils/crud.ts";
 import { User, UserRole } from "./user.model.ts";
+import { updateUser } from "./user.controller.ts";
 
 export const userRouter = new Router();
 
@@ -21,6 +22,7 @@ userRouter
     getById(User),
   )
   .get("/users", restrictTo(UserRole.ADMIN), getMany(User))
+  .patch("/users", isAuth, updateUser)
   .put(
     "/users/:id",
     validateObjectId<"/users/:id">("id"),
