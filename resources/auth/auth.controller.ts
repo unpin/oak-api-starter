@@ -1,9 +1,12 @@
-import { Context, createHttpError } from "oak";
+import { Context, createHttpError, RouterContext } from "oak";
 import { compare, genSalt, hash } from "bcrypt";
 import { Status } from "std/http/http_status.ts";
 import { sign } from "../../common/jwt.ts";
 import { User, UserRole } from "../user/user.model.ts";
 import { JWT_CRYPTO_KEY } from "../../common/config.ts";
+import { generateHexString } from "../../utils/generateHexString.ts";
+import { sha256 } from "../../utils/crypto.ts";
+import { sendMail } from "../../utils/mail.ts";
 
 export async function signup(ctx: Context) {
   const { name, email, password } = await ctx.request.body({ type: "json" })
@@ -57,6 +60,66 @@ export async function signin(ctx: Context) {
   const token = await sign({ sub: user._id, role: user.role }, JWT_CRYPTO_KEY);
   ctx.response.status = Status.OK;
   ctx.response.body = { token };
+}
+
+export async function forgotPassword(ctx: Context) {
+  const { email } = await ctx.request.body({ type: "json" }).value;
+  if (!email) throw createHttpError(Status.BadRequest, "Email is required");
+  const user = await User.findOne({ email }) as Record<string, unknown>;
+  if (!user) {
+    throw createHttpError(Status.NotFound, "User with the email not found");
+  }
+  const resetToken = generateHexString(32);
+  const TEN_MINUTES = 60 * 1000 * 10;
+  await User.updateOne({ email }, {
+    passwordResetToken: await sha256(resetToken),
+    passwordResetExpires: new Date(Date.now() + TEN_MINUTES),
+  });
+  const { origin } = ctx.request.url;
+  await sendMail({
+    to: email,
+    subject: "Password Recovery",
+    content:
+      `Forgot your password? Send a PATCH request to ${origin}/reset-password/${resetToken} with the (new) password and passwordConfirm fields. Reset token is valid for 10 minutes: ${resetToken}`,
+  });
+  ctx.response.status = Status.OK;
+  ctx.response.body = {
+    message: "We sent you an email with a link to get back into your account.",
+  };
+}
+
+export async function resetPassword(
+  ctx: RouterContext<"/reset-password/:token">,
+) {
+  const user = await User.findOne({
+    passwordResetToken: await sha256(ctx.params.token),
+  }) as {
+    email: string;
+    passwordResetToken: string;
+    passwordResetExpires: Date;
+  };
+  if (!user || Date.now() > user.passwordResetExpires.getTime()) {
+    throw createHttpError(Status.BadRequest, "Provided token expired");
+  }
+  const { password, passwordConfirm } = await ctx.request.body({ type: "json" })
+    .value;
+  if (!password || password.length < 6) {
+    throw createHttpError(
+      Status.BadRequest,
+      "Password must be at least 6 characters long",
+    );
+  }
+  if (password !== passwordConfirm) {
+    throw createHttpError(Status.BadRequest, "Passwords do not match");
+  }
+  await User.updateOne({ email: user.email }, {
+    password: await hash(password, await genSalt()),
+    passwordChangedAt: Date.now(),
+    passwordResetToken: null,
+    passwordResetExpires: null,
+  });
+  ctx.response.status = Status.OK;
+  ctx.response.body = { message: `Password has been changed` };
 }
 
 export function removeAccount(ctx: Context) {
