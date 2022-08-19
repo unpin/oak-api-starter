@@ -1,8 +1,12 @@
 import { Context, createHttpError, RouterContext } from "oak";
-import { compare, genSalt, hash } from "bcrypt";
 import { Status } from "std/http/http_status.ts";
 import { sign } from "../../common/jwt.ts";
-import { User, UserRole } from "../user/user.model.ts";
+import {
+  correctPassword,
+  hashPassword,
+  User,
+  UserRole,
+} from "../user/user.model.ts";
 import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 import { generateHexString } from "../../utils/generateHexString.ts";
 import { sha256 } from "../../utils/crypto.ts";
@@ -24,10 +28,11 @@ export async function signup(ctx: Context) {
       "User with this email already exists",
     );
   }
+  checkPassword(password);
   const _id = await User.insertOne({
     name,
     email,
-    password: await hash(password, await genSalt()),
+    password: hashPassword(password),
   });
   const token = await sign({ sub: _id, role: UserRole.USER }, JWT_CRYPTO_KEY);
   ctx.response.status = Status.Created;
@@ -51,7 +56,7 @@ export async function signin(ctx: Context) {
     role: string;
   };
 
-  if (!user || !(await compare(password, user.password))) {
+  if (!user || !(await correctPassword(password, user.password))) {
     throw createHttpError(
       Status.Unauthorized,
       "Incorrect email address or password",
@@ -103,17 +108,9 @@ export async function resetPassword(
   }
   const { password, passwordConfirm } = await ctx.request.body({ type: "json" })
     .value;
-  if (!password || password.length < 6) {
-    throw createHttpError(
-      Status.BadRequest,
-      "Password must be at least 6 characters long",
-    );
-  }
-  if (password !== passwordConfirm) {
-    throw createHttpError(Status.BadRequest, "Passwords do not match");
-  }
+  checkPassword(password, passwordConfirm);
   await User.updateOne({ email: user.email }, {
-    password: await hash(password, await genSalt()),
+    password: await hashPassword(password),
     passwordChangedAt: Date.now(),
     passwordResetToken: null,
     passwordResetExpires: null,
