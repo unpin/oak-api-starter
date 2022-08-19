@@ -149,7 +149,7 @@ export async function deleteAccount(ctx: Context) {
   if (!await correctPassword(password, user.password)) {
     throw createHttpError(Status.BadRequest, "Password is incorrect");
   }
-  await User.findByIdAndDelete(_id);
+  await User.findByIdAndUpdate(_id, { isActive: false });
   ctx.response.status = Status.NoContent;
 }
 

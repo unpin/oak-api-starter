@@ -14,6 +14,7 @@ const userSchema = dango.schema({
   passwordChangedAt: { type: "date", default: null },
   passwordResetToken: { type: "string", default: null },
   passwordResetExpires: { type: "date", default: null },
+  isActive: { type: "boolean", default: true },
 });
 
 export const User = dango.model(
