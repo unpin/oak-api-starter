@@ -139,8 +139,18 @@ export async function updatePassword(ctx: Context) {
   ctx.response.body = { message: "Password has been changed" };
 }
 
-export function removeAccount(ctx: Context) {
-  // TODO
+export async function deleteAccount(ctx: Context) {
+  const { sub: _id } = ctx.state.user as { sub: string };
+  const { password } = await ctx.request.body({ type: "json" }).value;
+  const user = await User.findById(_id) as { password: string };
+  if (!user) {
+    throw createHttpError(Status.BadRequest, "User does not exist");
+  }
+  if (!await correctPassword(password, user.password)) {
+    throw createHttpError(Status.BadRequest, "Password is incorrect");
+  }
+  await User.findByIdAndDelete(_id);
+  ctx.response.status = Status.NoContent;
 }
 
 function checkPassword(password: string, passwordConfirm?: string) {

@@ -1,6 +1,7 @@
 import { Router } from "oak";
 import { isAuth } from "../../middleware/isAuth.ts";
 import {
+  deleteAccount,
   forgotPassword,
   resetPassword,
   signin,
@@ -15,4 +16,5 @@ authRouter
   .post("/auth/signup", signup)
   .post("/forgot-password", forgotPassword)
   .patch("/reset-password/:token", resetPassword)
-  .post("/update-password", isAuth, updatePassword);
+  .post("/update-password", isAuth, updatePassword)
+  .delete("/delete-account", isAuth, deleteAccount);
