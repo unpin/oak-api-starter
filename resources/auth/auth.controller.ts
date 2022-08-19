@@ -106,11 +106,13 @@ export async function resetPassword(
   if (!user || Date.now() > user.passwordResetExpires.getTime()) {
     throw createHttpError(Status.BadRequest, "Provided token expired");
   }
-  const { password, passwordConfirm } = await ctx.request.body({ type: "json" })
+  const { newPassword, newPasswordConfirm } = await ctx.request.body({
+    type: "json",
+  })
     .value;
-  checkPassword(password, passwordConfirm);
+  checkPassword(newPassword, newPasswordConfirm);
   await User.updateOne({ email: user.email }, {
-    password: await hashPassword(password),
+    password: await hashPassword(newPassword),
     passwordChangedAt: Date.now(),
     passwordResetToken: null,
     passwordResetExpires: null,
