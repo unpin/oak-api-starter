@@ -32,7 +32,7 @@ export async function signup(ctx: Context) {
   const _id = await User.insertOne({
     name,
     email,
-    password: hashPassword(password),
+    password: await hashPassword(password),
   });
   const token = await sign({ sub: _id, role: UserRole.USER }, JWT_CRYPTO_KEY);
   ctx.response.status = Status.Created;
