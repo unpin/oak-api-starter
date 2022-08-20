@@ -6,16 +6,22 @@ functionality, Authentication and Authorization.
 Functionality
 
 - [x] Basic CRUD functionality
-- [ ] Basic error handling (404, 500, etc.) See Oak documentation.
+- [x] Basic error handling (404, 500, etc.)
 - [ ] Global error handler. See Deno documentation.
 
 Security
 
-- [ ] Trace method for supported methods
+- [x] Deny Access to JWT token after password change
+- [ ] Options method for supported methods
 - [ ] CORS
-- [ ] Rate Limiting endpoints
+- [x] Rate Limiting middleware
 
 Authentication
 
-- [ ] Basic JWT Authentication
+- [x] Basic JWT Authentication
+- [x] isAuth middleware
 - [ ] Authentication with OAuth
+
+Authorization
+
+- [x] restrictTo middleware
