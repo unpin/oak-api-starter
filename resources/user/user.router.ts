@@ -37,4 +37,4 @@ userRouter
     isUserWithMatchingId,
     /* TODO users can only delete themselves */ deleteById(User),
   )
-  .delete("/users", /* isAuth, restrictTo, */ deleteMany(User));
+  .delete("/users", restrictTo(UserRole.ADMIN), deleteMany(User));
