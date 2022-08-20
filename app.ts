@@ -5,6 +5,7 @@ import { authRouter } from "./resources/auth/auth.router.ts";
 import { connect } from "./database/connect.ts";
 import { timing } from "./middleware/timing.ts";
 import { errorHandler } from "./middleware/errorHandler.ts";
+import { rateLimit } from "./middleware/rateLimit.ts";
 
 await connect(DATABASE_URL);
 
@@ -15,6 +16,7 @@ if (DENO_ENV === "development") {
 }
 
 app.use(errorHandler);
+app.use(rateLimit({ max: 100, windowMS: 1000 * 60 * 60 }));
 app.use(userRouter.routes());
 app.use(authRouter.routes());
 
