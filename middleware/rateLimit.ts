@@ -1,9 +1,16 @@
 import { Context, createHttpError, Status } from "oak";
 
 type RateLimitOptions = {
+  /** The number of requests per user to allow within a specified time frame {@link RateLimitOptions.windowMS} */
   max: number;
+
+  /** A time period for which requests are checked */
   windowMS: number;
+
+  /** Enabling this will set RateLimit headers */
   headers?: boolean;
+
+  /** The response message users get when they have exceeded the allowed limit */
   message?: string;
 };
 
@@ -13,6 +20,21 @@ type RateLimitData = {
 };
 
 const store: Map<string, RateLimitData> = new Map();
+
+/**
+ * Return middleware that rate limits incoming requests
+ *
+ * @param options - {@link RateLimitOptions}
+ *
+ * @return a rateLimit middleware
+ *
+ * @emample - returns a rateLimit middleware that will allow
+ * no more than 100 requests per hour per IP address
+ *
+ * ```ts
+ * rateLimit({ max: 100, windowMS: 1000 * 60 * 60})
+ * ```
+ */
 
 export function rateLimit(options: RateLimitOptions) {
   return async function (ctx: Context, next: () => Promise<unknown>) {
