@@ -16,7 +16,7 @@ if (DENO_ENV === "development") {
 }
 
 app.use(errorHandler);
-app.use(rateLimit({ max: 100, windowMS: 1000 * 60 * 60 }));
+app.use(rateLimit({ max: 100, windowMS: 1000 * 60 * 60, headers: true }));
 app.use(userRouter.routes());
 app.use(authRouter.routes());
 

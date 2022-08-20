@@ -3,6 +3,7 @@ import { Context, createHttpError, Status } from "oak";
 type RateLimitOptions = {
   max: number;
   windowMS: number;
+  headers?: boolean;
   message?: string;
 };
 
@@ -48,6 +49,7 @@ function setRateLimitHeaders(
   options: RateLimitOptions,
   data: RateLimitData,
 ) {
+  if (!options.headers) return;
   ctx.response.headers.set("X-RateLimit", String(options.max));
   ctx.response.headers.set("X-RateLimit-Remaining", String(data.remaining));
   ctx.response.headers.set(
