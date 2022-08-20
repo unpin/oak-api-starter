@@ -1,4 +1,4 @@
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { composeMiddleware, Context, createHttpError } from "oak";
 import { isAuth } from "./isAuth.ts";
 import { UserRole } from "../resources/user/user.model.ts";

@@ -1,5 +1,5 @@
 import { Context, createHttpError } from "oak";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { verify } from "../common/jwt.ts";
 import { JWT_CRYPTO_KEY } from "../common/config.ts";
 import { User } from "../resources/user/user.model.ts";

@@ -1,5 +1,5 @@
 import { Context } from "oak";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { User } from "./user.model.ts";
 
 export async function updateUser(ctx: Context) {

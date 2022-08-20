@@ -1,5 +1,5 @@
 import { Context, isHttpError } from "oak";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { LOGGER } from "../common/Logger.ts";
 
 export async function errorHandler(

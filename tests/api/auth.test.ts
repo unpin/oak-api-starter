@@ -1,4 +1,4 @@
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { assertExists } from "std/testing/asserts.ts";
 import { Fetch } from "superfetch";
 import { createRandomUser } from "../../utils/randomUser.ts";

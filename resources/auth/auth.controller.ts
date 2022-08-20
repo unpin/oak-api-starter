@@ -1,5 +1,5 @@
 import { Context, createHttpError, RouterContext } from "oak";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { sign } from "../../common/jwt.ts";
 import {
   correctPassword,

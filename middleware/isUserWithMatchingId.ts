@@ -1,4 +1,4 @@
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { RouterContext } from "oak";
 
 export async function isUserWithMatchingId(

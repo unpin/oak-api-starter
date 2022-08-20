@@ -1,7 +1,7 @@
 import { LOGGER } from "../common/Logger.ts";
 import { createHttpError, RouteParams, RouterContext } from "oak";
 import { isObjectIdValid } from "../utils/isObjectIdValid.ts";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 
 export function validateObjectId<T extends string>(_id: string | string[]) {
   return async function (

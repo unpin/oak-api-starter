@@ -1,5 +1,5 @@
 import { Context, RouteParams, RouterContext } from "oak";
-import { Status } from "std/http/http_status.ts";
+import { Status } from "oak";
 import { Query } from "dango/lib/query.ts";
 
 export function createOne(Model: Query) {
