@@ -7,7 +7,7 @@ type RateLimitOptions = {
   /** A time period for which requests are checked */
   windowMS: number;
 
-  /** Enabling this will set RateLimit headers */
+  /** Enabling this will set X-RateLimit headers */
   headers?: boolean;
 
   /** The response message users get when they have exceeded the allowed limit */
@@ -26,9 +26,9 @@ const store: Map<string, RateLimitData> = new Map();
  *
  * @param options - {@link RateLimitOptions}
  *
- * @return a rateLimit middleware
+ * @return a rate limiting middleware
  *
- * @emample - returns a rateLimit middleware that will allow
+ * @emample - returns a rate limiting middleware that will allow
  * no more than 100 requests per hour per IP address
  *
  * ```ts
