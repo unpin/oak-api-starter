@@ -11,12 +11,12 @@ type RateLimitData = {
   timestamp: number;
 };
 
-const visitorMap: Map<string, RateLimitData> = new Map();
+const store: Map<string, RateLimitData> = new Map();
 
 export function rateLimit(options: RateLimitOptions) {
   return async function (ctx: Context, next: () => Promise<unknown>) {
     const { ip } = ctx.request;
-    let data = visitorMap.get(ip);
+    let data = store.get(ip);
 
     if (data) {
       data.remaining--;
@@ -25,7 +25,7 @@ export function rateLimit(options: RateLimitOptions) {
         remaining: options.max,
         timestamp: Date.now(),
       };
-      visitorMap.set(ip, data);
+      store.set(ip, data);
     }
 
     const diff = Date.now() - data.timestamp;
