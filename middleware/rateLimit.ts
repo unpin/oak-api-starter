@@ -18,9 +18,7 @@ export function rateLimit(options: RateLimitOptions) {
     const { ip } = ctx.request;
     let data = store.get(ip);
 
-    if (data) {
-      data.remaining--;
-    } else {
+    if (!data) {
       data = {
         remaining: options.max,
         timestamp: Date.now(),
@@ -30,17 +28,14 @@ export function rateLimit(options: RateLimitOptions) {
 
     const diff = Date.now() - data.timestamp;
 
-    if (data.remaining < 1) {
-      if ((diff) < options.windowMS) {
-        data.remaining = 0;
-        setRateLimitHeaders(ctx, options, data);
-        throw createHttpError(Status.TooManyRequests, options.message);
-      }
+    if ((diff) > options.windowMS) {
       data.timestamp = Date.now();
       data.remaining = options.max;
-    } else if ((diff) > options.windowMS) {
-      data.timestamp = Date.now();
-      data.remaining = options.max;
+    } else if (data.remaining > 0) {
+      data.remaining--;
+    } else {
+      setRateLimitHeaders(ctx, options, data);
+      throw createHttpError(Status.TooManyRequests, options.message);
     }
 
     setRateLimitHeaders(ctx, options, data);
