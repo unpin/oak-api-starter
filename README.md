@@ -1,7 +1,7 @@
-## Deno Oak Starter Application
+## Deno Template Project
 
-This is a starter Oak application with basic CRUD functionality and
-authentication.
+This is a template project for Deno's Oak framework with basic CRUD
+functionality, Authentication and Authorization.
 
 Functionality
 
