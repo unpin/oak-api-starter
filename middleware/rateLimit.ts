@@ -76,6 +76,6 @@ function setRateLimitHeaders(
   ctx.response.headers.set("X-RateLimit-Remaining", String(data.remaining));
   ctx.response.headers.set(
     "X-RateLimit-Timestamp",
-    new Date(data.timestamp).toString(),
+    String(new Date(data.timestamp)),
   );
 }
