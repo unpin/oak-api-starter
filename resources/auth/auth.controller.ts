@@ -9,7 +9,7 @@ import {
 } from "../user/user.model.ts";
 import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 import { generateHexString } from "../../utils/generateHexString.ts";
-import { sha256 } from "../../utils/crypto.ts";
+import { sha256 } from "../../utils/hash.ts";
 import { sendMail } from "../../utils/mail.ts";
 
 export async function signup(ctx: Context) {
