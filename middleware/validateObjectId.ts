@@ -3,27 +3,17 @@ import { createHttpError, RouteParams, RouterContext } from "oak";
 import { isObjectIdValid } from "../utils/isObjectIdValid.ts";
 import { Status } from "oak";
 
-export function validateObjectId<T extends string>(_id: string | string[]) {
+export function validateObjectId<T extends string>(params: string[]) {
   return async function (
     ctx: RouterContext<T, RouteParams<T>>,
     next: () => Promise<unknown>,
   ) {
-    if (Array.isArray(_id)) {
-      if (_id.every((id) => isObjectIdValid(ctx.params[id]))) {
-        LOGGER.debug("ObjectID is valid");
-        await next();
-      } else {
-        LOGGER.debug("ObjectID is NOT valid");
-        throw createHttpError(Status.BadRequest, "Invalid ObjectIds");
-      }
+    if (params.every((id) => isObjectIdValid(ctx.params[id]))) {
+      LOGGER.debug("ObjectID is valid");
+      await next();
     } else {
-      if (isObjectIdValid(ctx.params[_id])) {
-        LOGGER.debug("ObjectID is valid");
-        await next();
-      } else {
-        LOGGER.debug("ObjectID is NOT valid");
-        throw createHttpError(Status.BadRequest, "Invalid ObjectId");
-      }
+      LOGGER.debug("ObjectID is NOT valid");
+      throw createHttpError(Status.BadRequest, "Invalid ObjectIds");
     }
   };
 }

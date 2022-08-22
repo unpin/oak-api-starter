@@ -16,21 +16,21 @@ export const userRouter = new Router();
 
 userRouter
   .get(
-    "/users/:id",
-    validateObjectId<"/users/:id">("id"),
+    "/users/:id/:sub",
+    validateObjectId<"/users/:id/:sub">(["id", "sub"]),
     getById(User),
   )
   .get("/users", restrictTo(UserRole.ADMIN), getMany(User))
   .patch("/users", isAuth, updateUser)
   .put(
     "/users/:id",
-    validateObjectId<"/users/:id">("id"),
+    validateObjectId<"/users/:id">(["id"]),
     isAuth,
     updateById(User),
   )
   .delete(
     "/users/:id",
-    validateObjectId<"/users/:id">("id"),
+    validateObjectId<"/users/:id">(["id"]),
     isAuth,
     /* TODO users can only delete themselves */ deleteById(User),
   )
