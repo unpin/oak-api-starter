@@ -57,7 +57,10 @@ export function rateLimit(options: RateLimitOptions) {
     } else if (data.remaining > 0) {
       data.remaining--;
     } else {
-      ctx.response.headers.set("Retry-After", String(options.windowMS / 1000));
+      ctx.response.headers.set(
+        "Retry-After",
+        new Date(data.timestamp + options.windowMS).toString(),
+      );
       setRateLimitHeaders(ctx, options, data);
       throw createHttpError(Status.TooManyRequests, options.message);
     }
