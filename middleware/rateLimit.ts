@@ -14,12 +14,12 @@ type RateLimitOptions = {
   message?: string;
 };
 
-type RateLimitData = {
+type UserRecord = {
   remaining: number;
   timestamp: number;
 };
 
-const store: Map<string, RateLimitData> = new Map();
+const store: Map<string, UserRecord> = new Map();
 
 /**
  * Return middleware that rate limits incoming requests
@@ -69,7 +69,7 @@ export function rateLimit(options: RateLimitOptions) {
 function setRateLimitHeaders(
   ctx: Context,
   options: RateLimitOptions,
-  data: RateLimitData,
+  data: UserRecord,
 ) {
   if (!options.headers) return;
   ctx.response.headers.set("X-RateLimit", String(options.max));
