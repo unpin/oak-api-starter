@@ -14,7 +14,7 @@ export const authRouter = new Router();
 authRouter
   .post("/auth/signin", signin)
   .post("/auth/signup", signup)
-  .post("/forgot-password", forgotPassword)
-  .patch("/reset-password/:token", resetPassword)
-  .post("/update-password", isAuth, updatePassword)
-  .delete("/delete-account", isAuth, deleteAccount);
+  .post("/password/forgot", forgotPassword)
+  .patch("/password/reset/:token", resetPassword)
+  .post("/password/update", isAuth, updatePassword)
+  .delete("/account/delete", isAuth, deleteAccount);

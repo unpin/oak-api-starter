@@ -86,7 +86,7 @@ export async function forgotPassword(ctx: Context) {
     to: email,
     subject: "Password Recovery",
     content:
-      `Forgot your password? Send a PATCH request to ${origin}/reset-password/${resetToken} with the (new) password and passwordConfirm fields. Reset token is valid for 10 minutes: ${resetToken}`,
+      `Forgot your password? Send a PATCH request to ${origin}/password/reset/${resetToken} with the (new) password and passwordConfirm fields. Reset token is valid for 10 minutes: ${resetToken}`,
   });
   ctx.response.status = Status.OK;
   ctx.response.body = {
@@ -95,7 +95,7 @@ export async function forgotPassword(ctx: Context) {
 }
 
 export async function resetPassword(
-  ctx: RouterContext<"/reset-password/:token">,
+  ctx: RouterContext<"/password/reset/:token">,
 ) {
   const user = await User.findOne({
     passwordResetToken: await sha256(ctx.params.token),
