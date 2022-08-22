@@ -1,7 +1,6 @@
 import { Router } from "oak";
 import { restrictTo } from "../../middleware/restrictTo.ts";
 import { isAuth } from "../../middleware/isAuth.ts";
-import { isUserWithMatchingId } from "../../middleware/isUserWithMatchingId.ts";
 import { validateObjectId } from "../../middleware/validateObjectId.ts";
 import {
   deleteById,
@@ -27,14 +26,12 @@ userRouter
     "/users/:id",
     validateObjectId<"/users/:id">("id"),
     isAuth,
-    isUserWithMatchingId,
     updateById(User),
   )
   .delete(
     "/users/:id",
     validateObjectId<"/users/:id">("id"),
     isAuth,
-    isUserWithMatchingId,
     /* TODO users can only delete themselves */ deleteById(User),
   )
   .delete("/users", restrictTo(UserRole.ADMIN), deleteMany(User));
