@@ -22,14 +22,14 @@ type UserRecord = {
 const store: Map<string, UserRecord> = new Map();
 
 /**
- * Return middleware that rate limits incoming requests
+ * Return rate limit middleware
  *
  * @param options - {@link RateLimitOptions}
  *
- * @return a rate limiting middleware
+ * @return a rate limit middleware
  *
- * @emample - returns a rate limiting middleware that will allow
- * no more than 100 requests per hour per IP address
+ * @emample - returns rate limit middleware that limits the number of requests
+ * per IP address to 100 per hour.
  *
  * ```ts
  * rateLimit({ max: 100, windowMS: 1000 * 60 * 60})
