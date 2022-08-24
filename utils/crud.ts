@@ -26,14 +26,13 @@ export function getById<T extends string>(Model: Query) {
 
 export function getMany(
   Model: Query,
-  options: { pageLimit: number } = { pageLimit: 10 },
+  { pageLimit }: { pageLimit: number } = { pageLimit: 10 },
 ) {
   return async function (ctx: Context) {
+    const { searchParams: params } = ctx.request.url;
     const DEFAULT_PAGE = 1;
-    const LIMIT = Number(ctx.request.url.searchParams.get("limit")) ||
-      options.pageLimit;
-    const PAGE = Number(ctx.request.url.searchParams.get("page")) ||
-      DEFAULT_PAGE;
+    const LIMIT = Number(params.get("limit")) || pageLimit;
+    const PAGE = Number(params.get("page")) || DEFAULT_PAGE;
     const objects = await Model.find({}, {
       limit: LIMIT,
       skip: Math.max(PAGE - 1, 0) * LIMIT,
