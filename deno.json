@@ -3,7 +3,6 @@
     "start": "deno run -A app.ts",
     "dev": "deno run -A --watch app.ts",
     "test": "deno test -A",
-    "test:user": "deno test -A --no-check ./tests/api/user.test.ts",
     "test:auth": "deno test -A --no-check ./tests/api/auth.test.ts",
     "check": "deno check app.ts"
   },
