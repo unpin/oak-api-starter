@@ -16,7 +16,7 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
       "Authorization token is required",
     );
   }
-  let decoded = null;
+  let decoded;
   try {
     decoded = await verify(token, JWT_CRYPTO_KEY);
   } catch {
