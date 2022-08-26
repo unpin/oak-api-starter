@@ -5,11 +5,10 @@ import { UserRole } from "../resources/user/user.model.ts";
 
 export function restrictTo(...allowedRoles: UserRole[]) {
   async function checkRole(ctx: Context, next: () => Promise<unknown>) {
-    if (allowedRoles.includes(ctx.state.user.role)) {
-      await next();
-    } else {
+    if (!allowedRoles.includes(ctx.state.user.role)) {
       throw createHttpError(Status.Forbidden, "Access denied");
     }
+    await next();
   }
   return composeMiddleware([isAuth, checkRole]);
 }
