@@ -6,7 +6,7 @@ import { User } from "../resources/user/user.model.ts";
 
 export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   const authHeader = ctx.request.headers.get("Authorization");
-  let token: string | null = null;
+  let token: string | undefined;
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
   }
