@@ -1,3 +1,4 @@
+import { ensureDir, ensureDirSync } from "std/fs/mod.ts";
 import { getLogger, handlers, LevelName, setup } from "std/log/mod.ts";
 import { LOGGING_LEVEL } from "../common/config.ts";
 
@@ -7,6 +8,8 @@ const FILENAME = "./logs/log.txt";
 const MAX_BYTES = 1024 * 1024 * 5;
 const MAX_BACKUP_COUNT = 3;
 const FORMATTER = "[{levelName}] {datetime} {msg}";
+
+await ensureDir(Deno.cwd() + "./logs");
 
 await setup({
   handlers: {
