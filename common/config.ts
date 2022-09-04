@@ -1,13 +1,8 @@
 import { config } from "std/dotenv/mod.ts";
 
-await config({
-  path: "./.env",
-  defaults: "./.env.defaults",
-  example: "./.env.example",
-  allowEmptyValues: true,
-  export: true,
-  safe: false,
-});
+const getEnv = async () => {
+  return Object.assign(await config(), Deno.env.toObject());
+};
 
 export const {
   DENO_ENV,
@@ -21,9 +16,7 @@ export const {
   SMTP_PORT,
   SMTP_USERNAME,
   SMTP_PASSWORD,
-} = Deno.env.toObject();
-
-console.log(Deno.env.toObject());
+} = await getEnv();
 
 export const JWT_CRYPTO_KEY = await crypto.subtle.importKey(
   "raw",
