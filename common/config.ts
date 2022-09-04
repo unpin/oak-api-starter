@@ -4,9 +4,9 @@ await config({
   path: "./.env",
   defaults: "./.env.defaults",
   example: "./.env.example",
-  allowEmptyValues: false,
+  allowEmptyValues: true,
   export: true,
-  safe: true,
+  safe: false,
 });
 
 export const {
