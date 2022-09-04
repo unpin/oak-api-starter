@@ -1,5 +1,5 @@
 import { dango } from "dango/mod.ts";
-import { compare, genSalt, hash } from "bcrypt";
+import { compareSync, genSaltSync, hashSync } from "bcrypt";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -22,13 +22,13 @@ export const User = dango.model(
   userSchema,
 );
 
-export async function hashPassword(password: string) {
-  return await hash(password, await genSalt());
+export function hashPassword(password: string) {
+  return hashSync(password, genSaltSync());
 }
 
-export async function correctPassword(
+export function correctPassword(
   candidatePassword: string,
   password: string,
 ) {
-  return await compare(candidatePassword, password);
+  return compareSync(candidatePassword, password);
 }
