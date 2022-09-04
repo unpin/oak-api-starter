@@ -3,7 +3,7 @@ import { LOGGING_LEVEL } from "../common/config.ts";
 
 const LEVEL = LOGGING_LEVEL as LevelName || "NOTSET";
 // File Logger Configuration
-const FILENAME = "./logs/log.txt";
+const FILENAME = "./log.txt";
 const MAX_BYTES = 1024 * 1024 * 5;
 const MAX_BACKUP_COUNT = 3;
 const FORMATTER = "[{levelName}] {datetime} {msg}";
