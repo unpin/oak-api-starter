@@ -25,6 +25,20 @@ export const {
   SMTP_PASSWORD,
 } = await getEnv();
 
+console.log({
+  DENO_ENV,
+  DATABASE_URL,
+  LOGGING_LEVEL,
+  PORT,
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  JWT_SECRET,
+  SMTP_HOSTNAME,
+  SMTP_PORT,
+  SMTP_USERNAME,
+  SMTP_PASSWORD,
+});
+
 export const JWT_CRYPTO_KEY = await crypto.subtle.importKey(
   "raw",
   new TextEncoder().encode(JWT_SECRET),
