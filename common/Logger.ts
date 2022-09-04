@@ -1,27 +1,16 @@
 import { getLogger, handlers, LevelName, setup } from "std/log/mod.ts";
 import { LOGGING_LEVEL } from "../common/config.ts";
 
-const LEVEL = LOGGING_LEVEL as LevelName || "NOTSET";
-// File Logger Configuration
-const FILENAME = "./log.txt";
-const MAX_BYTES = 1024 * 1024 * 5;
-const MAX_BACKUP_COUNT = 3;
-const FORMATTER = "[{levelName}] {datetime} {msg}";
+const LEVEL = LOGGING_LEVEL as LevelName;
 
 await setup({
   handlers: {
-    console: new handlers.ConsoleHandler("DEBUG"),
-    file: new handlers.RotatingFileHandler("ERROR", {
-      filename: FILENAME,
-      formatter: FORMATTER,
-      maxBytes: MAX_BYTES,
-      maxBackupCount: MAX_BACKUP_COUNT,
-    }),
+    console: new handlers.ConsoleHandler(LEVEL),
   },
   loggers: {
     default: {
       level: LEVEL,
-      handlers: ["console", "file"],
+      handlers: ["console"],
     },
   },
 });
