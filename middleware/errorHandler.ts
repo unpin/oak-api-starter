@@ -9,6 +9,7 @@ export async function errorHandler(
   try {
     await next();
   } catch (e) {
+    console.error(e);
     if (isHttpError(e)) {
       LOGGER.debug(e);
       response.status = e.status;
