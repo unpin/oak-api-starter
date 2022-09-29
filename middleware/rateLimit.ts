@@ -51,7 +51,7 @@ export function rateLimit(options: RateLimitOptions) {
 
     const diff = Date.now() - data.timestamp;
 
-    if ((diff) > options.windowMS) {
+    if (diff > options.windowMS) {
       data.timestamp = Date.now();
       data.remaining = options.max;
     } else if (data.remaining > 0) {
