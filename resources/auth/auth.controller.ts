@@ -1,13 +1,12 @@
 import { Context, createHttpError, RouterContext } from "oak";
 import { Status } from "oak";
-import { sign } from "../../common/jwt.ts";
+import { CRYPTO_KEY, sign } from "../../common/jwt.ts";
 import {
   correctPassword,
   hashPassword,
   User,
   UserRole,
 } from "../user/user.model.ts";
-import { JWT_CRYPTO_KEY } from "../../common/config.ts";
 import { generateHexString } from "../../utils/generateHexString.ts";
 import { sha256 } from "../../utils/hash.ts";
 import { sendMail } from "../../utils/mail.ts";
@@ -34,7 +33,7 @@ export async function signup(ctx: Context) {
     email,
     password: await hashPassword(password),
   });
-  const token = await sign({ sub: _id, role: UserRole.USER }, JWT_CRYPTO_KEY);
+  const token = await sign({ sub: _id, role: UserRole.USER }, CRYPTO_KEY);
   ctx.response.status = Status.Created;
   ctx.response.body = { token, data: { user: { _id, name, email } } };
   const { secure } = ctx.request;
@@ -63,7 +62,7 @@ export async function signin(ctx: Context) {
       "Incorrect email address or password",
     );
   }
-  const token = await sign({ sub: user._id, role: user.role }, JWT_CRYPTO_KEY);
+  const token = await sign({ sub: user._id, role: user.role }, CRYPTO_KEY);
   ctx.response.status = Status.OK;
   ctx.response.body = { token };
 }

@@ -1,7 +1,6 @@
 import { Context, createHttpError } from "oak";
 import { Status } from "oak";
-import { verify } from "../common/jwt.ts";
-import { JWT_CRYPTO_KEY } from "../common/config.ts";
+import { CRYPTO_KEY, verify } from "../common/jwt.ts";
 import { User } from "../resources/user/user.model.ts";
 
 export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
@@ -18,7 +17,7 @@ export async function isAuth(ctx: Context, next: () => Promise<unknown>) {
   }
   let decoded;
   try {
-    decoded = await verify(token, JWT_CRYPTO_KEY);
+    decoded = await verify(token, CRYPTO_KEY);
   } catch {
     throw createHttpError(
       Status.Unauthorized,
