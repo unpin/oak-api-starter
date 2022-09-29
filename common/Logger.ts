@@ -3,7 +3,7 @@ import { LOGGING_LEVEL } from "../common/config.ts";
 
 const LEVEL = LOGGING_LEVEL as LevelName;
 
-await setup({
+setup({
   handlers: {
     console: new handlers.ConsoleHandler(LEVEL),
   },
