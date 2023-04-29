@@ -5,7 +5,7 @@ await config({
   defaults: "./.env.defaults",
   example: "./.env.example",
   allowEmptyValues: true,
-  export: false,
+  export: true,
   safe: false,
 });
 
