@@ -7,6 +7,8 @@
     "check": "deno check app.ts"
   },
   "imports": {
+    "/": "./",
+    "./": "./",
     "std/": "https://deno.land/std@0.158.0/",
     "dango/": "https://deno.land/x/dangodb@v1.0.3/",
     "bcrypt": "https://deno.land/x/bcrypt@v0.4.0/mod.ts",
