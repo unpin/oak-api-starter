@@ -47,22 +47,21 @@ export function rateLimit(options: RateLimitOptions) {
         timestamp: Date.now(),
       };
       store.set(ip, data);
-    }
-
-    const diff = Date.now() - data.timestamp;
-
-    if (diff > options.windowMS) {
-      data.timestamp = Date.now();
-      data.remaining = options.max;
-    } else if (data.remaining > 0) {
-      data.remaining--;
     } else {
-      ctx.response.headers.set(
-        "Retry-After",
-        new Date(data.timestamp + options.windowMS).toString(),
-      );
-      setRateLimitHeaders(ctx, options, data);
-      throw createHttpError(Status.TooManyRequests, options.message);
+      const diff = Date.now() - data.timestamp;
+      if (diff > options.windowMS) {
+        data.timestamp = Date.now();
+        data.remaining = options.max;
+      } else if (data.remaining > 0) {
+        data.remaining--;
+      } else {
+        ctx.response.headers.set(
+          "Retry-After",
+          new Date(data.timestamp + options.windowMS).toString(),
+        );
+        setRateLimitHeaders(ctx, options, data);
+        throw createHttpError(Status.TooManyRequests, options.message);
+      }
     }
 
     setRateLimitHeaders(ctx, options, data);
