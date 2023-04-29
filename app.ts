@@ -13,6 +13,7 @@ await connect(DATABASE_URL);
 const app = new Application();
 
 if (DENO_ENV === "development") {
+  console.log("Development environment");
   app.use(timing);
 }
 
