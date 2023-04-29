@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "std/": "https://deno.land/std@0.158.0/",
+    "dango/": "https://deno.land/x/dangodb@v1.0.3/",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.4.0/mod.ts",
+    "oak": "https://deno.land/x/oak@v11.1.0/mod.ts",
+    "superfetch": "https://raw.githubusercontent.com/unpin/superfetch/v0.2.0/mod.ts",
+    "smtp": "https://deno.land/x/smtp@v0.7.0/mod.ts"
+  }
+}
